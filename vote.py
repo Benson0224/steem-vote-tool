@@ -32,8 +32,8 @@ class BulkLike():
 
 
     def is_exclude(self, voters):
+        exclude_voters = self.content['exclude']
         for voter in voters:
-            exclude_voters = self.content['exclude']
             if voter in exclude_voters:
                 return True
         return False
@@ -74,7 +74,7 @@ class BulkLike():
 
 
     def start(self):
-        post_level = ['general', 'medium', 'general']
+        post_level = ['general', 'medium', 'quality']
         for level in post_level:
             if self.content[level]['filename'] != None:
                 filename = self.content[level]['filename']

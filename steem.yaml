@@ -1,7 +1,7 @@
 username: booming02
 
 keys:
-  posting: 12345678910012345678901234567890123456789
+  posting: 123456789123456789123456789
 
 general:
   filename: general.txt
@@ -20,5 +20,5 @@ exclude:
   - booming02
   - booming03
   - booming04
-  - steemitcurator01
-  - steemitcurator02
+  - steemcurator01
+  - steemcurator02
