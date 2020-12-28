@@ -1,0 +1,24 @@
+username: booming02
+
+keys:
+  posting: 12345678910012345678901234567890123456789
+
+general:
+  filename: general.txt
+  weight: 10
+
+medium:
+  filename: medium.txt
+  weight: 20
+
+quality:
+  filename: quality.txt
+  weight: 50
+
+exclude:
+  - booming01
+  - booming02
+  - booming03
+  - booming04
+  - steemitcurator01
+  - steemitcurator02
