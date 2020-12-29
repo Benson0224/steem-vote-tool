@@ -69,6 +69,7 @@ class BulkLike():
                 self.s.commit.vote(identifier, float(weight), self.username)
             except Exception as err:
                 print('%-5s %6s %s %s' % ('[%d]' % index,'[FAIL]', '[Vote Failed]', url))
+                continue
 
             print('%-5s %9s %s' % ('[%d]' % index,'[SUCCESS]', url))
 
