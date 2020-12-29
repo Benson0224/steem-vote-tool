@@ -24,6 +24,8 @@ class BulkLike():
         articles = {}
         for url in urls:
             url  = url.strip('\n')
+            if url == '':
+                continue
             parms = urlparse(url).path.lstrip('/').strip('/').split('/')
             name = parms[1].lstrip('@')
             title = parms[2]
