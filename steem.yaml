@@ -3,6 +3,9 @@ username: booming02
 keys:
   posting: 123456789123456789123456789
 
+config:
+  auto: true
+
 general:
   filename: general.txt
   weight: 10
@@ -14,6 +17,12 @@ medium:
 quality:
   filename: quality.txt
   weight: 50
+
+auto:
+  filename: auto.txt
+  general: 20
+  medium: 50
+  quality: 80
 
 exclude:
   - booming01
