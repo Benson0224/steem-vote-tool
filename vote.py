@@ -2,6 +2,7 @@ from  urllib.parse import urlparse
 import json
 import steem
 import time
+import random
 
 import yaml
 
@@ -57,6 +58,8 @@ class BulkLike():
             timestamp = int(time.mktime(timearray))
             current_timestamp = int(time.time())
 
+            random_weight = random.randint(weight - 5, weight + 5)
+
             threshold_time = 7*24*60*60 # 7 days
             if current_timestamp - timestamp >= threshold_time:
                 print('%-5s %6s %s %s' % ('[%d]' % index,'[FAIL]', '[Time Expired]', url))
@@ -68,7 +71,7 @@ class BulkLike():
 
             identifier = ('@' + name + '/' + permlink)
             try:
-                self.s.commit.vote(identifier, float(weight), self.username)
+                self.s.commit.vote(identifier, float(random_weight), self.username)
             except Exception as err:
                 print('%-5s %6s %s %s' % ('[%d]' % index,'[FAIL]', '[Vote Failed]', url))
                 continue
@@ -76,7 +79,7 @@ class BulkLike():
             print('%-5s %9s %s' % ('[%d]' % index,'[SUCCESS]', url))
 
 
-    def start(self):
+    def vote(self):
         post_level = ['general', 'medium', 'quality']
         for level in post_level:
             if self.content[level]['filename'] != None:
@@ -87,6 +90,45 @@ class BulkLike():
                 articles = self.get_articles(filename)
                 self.bulk_vote(articles, weight)
                 print('\n')
+
+    def auto_classification_vote(self):
+        filename = self.content['auto']['filename']
+        articles = self.get_articles(filename)
+
+        classified = {}
+        classified['general'] = {}
+        classified['medium'] = {}
+        classified['quality'] = {}
+
+        for permlink in articles.keys():
+            article = articles[permlink]
+            name = article['name']
+
+            detail = self.s.get_content(name, permlink)
+            body = detail['body']
+            length = len(body)
+
+            if length <= 2000:
+                classified['general'][permlink] = article
+            elif length <= 4000:
+                classified['medium'][permlink] = article
+            else:
+                classified['quality'][permlink] = article
+
+
+        for type in classified.keys():
+            weight = self.content['auto'][type]
+            arts = classified[type]
+            print('Vote for %s posts...[%d]' % (type, weight))
+            self.bulk_vote(arts, weight)
+
+    def start(self):
+        auto = self.content['config']['auto']
+        if auto:
+            self.auto_classification_vote()
+        else:
+            self.vote()
+
 
 
 
